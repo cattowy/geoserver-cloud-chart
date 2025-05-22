@@ -1,0 +1,6 @@
+apiVersion: v2
+name: Geoserver cloud
+description: Chart for deploing geoserver cloud version
+type: application
+version: 0.0.1
+appVersion: "2.27.1.0"

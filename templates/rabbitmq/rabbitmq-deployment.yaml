@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "rabbitmq"
+  labels:
+    app: "rabbitmq"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "rabbitmq"
+  template:
+    metadata:
+      labels:
+        app: "rabbitmq"
+        environment: "production"
+        tier: "geoserver"
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:3.13.3-alpine
+          volumeMounts:
+            - mountPath: /var/lib/rabbitmq
+              name: rabbitmq-data
+      # resources:
+      #   requests:
+      #     memory: "128Mi"
+      #     cpu: "50m"
+      #   limits:
+      #     memory: "1024Mi"
+      #     cpu: 1
+      restartPolicy: Always
+      volumes:
+        - name: rabbitmq-data
+          persistentVolumeClaim:
+            claimName: rabbitmq-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "rabbitmq"
+  labels:
+    app: "rabbitmq"
+spec:
+  selector:
+    app: "rabbitmq"
+  ports:
+    - port: 5672 
+      name: rabbitmq
+  clusterIP: None  

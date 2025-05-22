@@ -1,0 +1,64 @@
+apiVersion: "apps/v1"
+kind: Deployment
+metadata:
+  name: "config"
+  labels:
+    app: "config"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "config"
+  template:
+    metadata:
+      labels:
+        app: "config"
+        environment: "production"
+        tier: "geoserver"
+    spec:
+      # securityContext:
+        # runAsUser: 1001
+        # runAsGroup: 1001
+        # fsGroup: 1001
+      containers:
+      - name: "config"
+        image: geoservercloud/geoserver-cloud-config:2.27.1.0
+        ports:
+          - containerPort: 8080
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        env:
+#          - name: CONFIG_GIT_URI  ## The X-Token generated for accessing the repository remotely to pull the configuration
+#            valueFrom:
+#              secretKeyRef:
+#               name: "git-xtoken"
+#               key: "link"
+#          - name: SPRING_CLOUD_CONFIG_SERVER_GIT_DEFAULT_LABEL  ## REPO branch
+#            value: main
+          - name: SPRING_PROFILES_ACTIVE
+            value: git
+          - name: CONFIG_GIT_BASEDIR  ## Where to store the config within the docker container
+            value: /tmp/git_config
+          - name: CONFIG_NATIVE_PATH
+            value: /tmp/config
+          - name: XDG_CONFIG_HOME
+            value: /tmp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "config"
+  labels:
+    app: "config"
+spec:
+  selector:
+    app: "config"
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
