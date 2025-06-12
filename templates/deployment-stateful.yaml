@@ -24,18 +24,18 @@ spec:
         app.kubernetes.io/name: {{ $name }}
     spec:
       {{- include "GeoserverCloud.imagePullSecrets" (dict "svc" $svc "global" $.Values.global) | nindent 6 }}
-      {{- include "GeoserverCloud.podSpecExtras" (dict "svc" $svc "Values" $.Values) | nindent 6 }}
+      {{- include "GeoserverCloud.podSpecExtras" (dict "svc" $svc "global" $.Values.global) | nindent 6 }}
       containers:
         - name: {{ $name }}
           image: {{ include "GeoserverCloud.image.full" (dict "svc" $svc "Values" $.Values) }}
           imagePullPolicy: {{ include "GeoserverCloud.image.pullPolicy" (dict "svc" $svc "Values" $.Values) }}
           ports:
             - containerPort: {{ $svc.service.containerPort }}
-          env: {{ include "GeoserverCloud.env" (dict "svc" $svc "Values" $.Values) | nindent 12 }}
-          resources: {{- toYaml $svc.resources | nindent 12 }}
-          {{- with $svc.volumeMounts }}
-          volumeMounts: {{- toYaml . | nindent 12 }}
+          {{- with (include "GeoserverCloud.allEnv" (dict "svc" $svc "Values" $.Values "Release" $.Release)) }}
+          env:
+          {{ . | nindent 12 }}
           {{- end }}
+          resources: {{- toYaml $svc.resources | nindent 12 }}
           {{- with $svc.readinessProbe }}
           readinessProbe: 
           {{ include "GeoserverCloud.probe" (dict "probe" . "svc" $svc) | nindent 12 }}

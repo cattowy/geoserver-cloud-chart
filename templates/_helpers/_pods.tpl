@@ -7,7 +7,7 @@
 */ -}}
 {{- define "GeoserverCloud.podSpecExtras" -}}
 {{- $svc := .svc -}}
-{{- $global := .Values.global -}}
+{{- $global := .global -}}
 
 {{- if or $svc.nodeSelector $global.nodeSelector }}
 nodeSelector:

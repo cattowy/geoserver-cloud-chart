@@ -35,12 +35,6 @@ app.kubernetes.io/name: {{ include "GeoserverCloud.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "GeoserverCloud.env" -}}
-{{- $svcEnv := .svc.env | default list }}
-{{- $globalEnv := .Values.global.extraEnv | default list }}
-{{- toYaml (concat $svcEnv $globalEnv) -}}
-{{- end }}
-
 {{- define "GeoserverCloud.securityContext" -}}
 {{- $global := .Values.global.securityContext }}
 {{- $local := .svc.securityContext }}

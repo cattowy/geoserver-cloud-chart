@@ -8,16 +8,7 @@ global:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  extraEnv:
-  ## нужно указывать значения из чарта bitnami rabbitmq
-  - name: RABBITMQ_HOST
-    value: geoserver-rabbitmq
-  - name: RABBITMQ_PORT
-    value: "5672"
-  - name: RABBITMQ_USER
-    value: user
-  - name: RABBITMQ_PASSWORD
-    value: bitnami
+  extraEnv: []
 
 services:
   acl:
@@ -104,15 +95,26 @@ services:
       containerPort: 8080
       healthPort: 8081
     resources: {}
-    env:
-    - name: SPRING_PROFILES_ACTIVE
-      value: git
-    - name: CONFIG_GIT_BASEDIR
-      value: /tmp/git_config
-    - name: CONFIG_NATIVE_PATH
-      value: /tmp/config
-    - name: XDG_CONFIG_HOME
-      value: /tmp
+    git:
+      protocol: http # или "ssh"
+      uri: https://github.com/geoserver/geoserver-cloud-config.git
+      branch: master
+      ssh:
+        privateKey: ""
+        privateKeySecret:
+          name: ""
+          key: id_rsa
+        knownHosts: ""
+        knownHostsSecret:
+          name: ""
+          key: known_hosts
+      http:
+        username: ""
+        password: ""
+        passwordSecret:
+          name: ""
+          key: password
+    env: []
     livenessProbe: {}
     readinessProbe: {}
     volumes: []
