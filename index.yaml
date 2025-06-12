@@ -3,7 +3,21 @@ entries:
   GeoserverCloud:
   - apiVersion: v2
     appVersion: 2.27.1.0
-    created: "2025-05-26T00:17:31.681207+03:00"
+    created: "2025-06-13T01:56:21.000244+03:00"
+    dependencies:
+    - name: rabbitmq
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.0.3
+    description: Chart for deploing geoserver cloud version
+    digest: 0eabf4d40b7153509abeb4200a8cbff1ebc41f800694f47a2133a591788cd521
+    name: GeoserverCloud
+    type: application
+    urls:
+    - https://cattowy.github.io/geoserver-cloud-chart/GeoserverCloud-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 2.27.1.0
+    created: "2025-06-13T01:56:20.995496+03:00"
     dependencies:
     - name: rabbitmq
       repository: https://charts.bitnami.com/bitnami
@@ -13,7 +27,7 @@ entries:
     name: GeoserverCloud
     type: application
     urls:
-    - GeoserverCloud-0.0.1.tgz
+    - https://cattowy.github.io/geoserver-cloud-chart/GeoserverCloud-0.0.1.tgz
     version: 0.0.1
   rabbitmq:
   - annotations:
@@ -27,7 +41,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 4.1.0
-    created: "2025-05-26T00:17:31.684051+03:00"
+    created: "2025-06-13T01:56:21.003075+03:00"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -51,6 +65,6 @@ entries:
     sources:
     - https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
     urls:
-    - charts/rabbitmq-16.0.3.tgz
+    - https://cattowy.github.io/geoserver-cloud-chart/charts/rabbitmq-16.0.3.tgz
     version: 16.0.3
-generated: "2025-05-26T00:17:31.675659+03:00"
+generated: "2025-06-13T01:56:20.991418+03:00"
